@@ -16,14 +16,20 @@ const Display = (props) => {
   };
 
   const remove = (employeeId) => {
+    console.log(employeeId);
     employeeService
       .deleteEmployee(employeeId)
       .then((data) => {
-        window.confirm("Data once deleted cannot be restored!! Do you wish to continue ?");
+        var answer = window.confirm("Data once deleted cannot be restored!! Do you wish to continue ?");
+        if(answer == true){
         alert("Data deleted successfully!!");
         window.location.reload();
         console.log("data after delete", data);
         props.getAllEmployee();
+        }
+        else{
+          window.location.reload();
+        }
       })
       .catch((err) => {
         alert("error while deleting the data!");
@@ -31,6 +37,7 @@ const Display = (props) => {
       });
   };
 
+  
   return (
     <table id="display" className="display">
       <tbody>
@@ -43,18 +50,19 @@ const Display = (props) => {
           <th>Start Date</th>
           <th>Actions</th>
         </tr>
+        
         {props.employeeArray &&
           props.employeeArray.map((element, ind) => (
             <tr key={ind}>
               <td><img className="profile" 
               src={
-                element.profileUrl ===
+                element.profilePic ===
                 "../../assets/profile-images/Ellipse -3.png"
                   ? profile1
-                  : element.profileUrl ===
+                  : element.profilePic ===
                     "../../assets/profile-images/Ellipse -1.png"
                   ? profile2
-                  : element.profileUrl ===
+                  : element.profilePic ===
                     "../../assets/profile-images/Ellipse -8.png"
                   ? profile3
                   : profile4
@@ -65,8 +73,8 @@ const Display = (props) => {
               <td>{element.name}</td>
               <td className="gender">{element.gender}</td>
               <td>
-                {element.departMent &&
-                  element.departMent.map((dept) => (
+                {element.department &&
+                  element.department.map((dept) => (
                     <div className="dept-label">{dept}</div>
                   ))}
               </td>
@@ -74,12 +82,12 @@ const Display = (props) => {
               <td>{element.startDate}</td>
               <td>
                 <img
-                  onClick={() => remove(element.id)}
+                  onClick={() => remove(element.empId)}
                   src={deleteIcon}
                   alt="delete"
                 />
                 <img
-                  onClick={() => update(element.id)}
+                  onClick={() => update(element.empId)}
                   src={editIcon}
                   alt="edit"
                 />
