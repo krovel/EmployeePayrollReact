@@ -23,7 +23,7 @@ const PayrollForm = (props) => {
         ],
         departmentValue: [],
         gender: '',
-        salary: '',
+        salary: '400000',
         day: 'Day',
         month: 'Month',
         year: 'Year',
@@ -118,7 +118,7 @@ const PayrollForm = (props) => {
             profilePic: '',
             startDate: ''
         }
-        if (!formValue.name.match('^[A-Z]{1}[a-zA-Z]{2,}')) {
+        if (!formValue.name.match('^[A-Z]{1}[a-z]{2,}([ ][A-Z]{1}[a-z]{2,})?$')) {
             error.name = 'Name is Invalid!!'
             isError = true;
         }
@@ -285,7 +285,8 @@ const PayrollForm = (props) => {
                     
                     <div className="row">
                         <label className="label text" htmlFor="salary">Salary</label>
-                        <input className="input" type="text" id="salary" name="salary" value={formValue.salary} onChange={changeValue} />
+                        <input className="input" type="range" id="salary" name="salary" min="300000" max="500000" value={formValue.salary} onChange={changeValue} />
+                        {formValue.salary}
                         <error className="error">{formValue.error.salary}</error>
                     </div>
 
@@ -356,7 +357,7 @@ const PayrollForm = (props) => {
                     
                     <div className="row">
                         <label className="label text" htmlFor="notes">Notes</label>
-                        <textarea onChange={changeValue} id="notes" value={formValue.notes} className="input" name="notes" placeholder=""
+                        <textarea onChange={changeValue} id="notes" value={formValue.notes} className="input" name="notes" placeholder="Write a note...."
                             style={{ height: '120%' }}></textarea>
                     <error className="error">{formValue.error.notes}</error>
                     </div>
