@@ -23,7 +23,7 @@ const PayrollForm = (props) => {
         ],
         departmentValue: [],
         gender: '',
-        salary: '400000',
+        salary: '40000',
         day: 'Day',
         month: 'Month',
         year: 'Year',
@@ -55,19 +55,15 @@ const PayrollForm = (props) => {
         employeeService
           .getEmployee(id)
           .then((data) => {
-            console.log("data is ", data.data.data);
             let obj = data.data.data;
-            //console.log("obj id inside get id method: "+obj.employee_id);
             setData(obj);
           })
           .catch((err) => {
-            console.log("err is ", err);
+            alert("err is ", err);
           });
       };
     
     const setData = (obj) => {
-        //console.log("Object id while setform call "+obj.employee_id);
-        //console.log("StartDate "+obj.startDate);
         let array = obj.startDate.split("-");
         setForm({
           ...formValue,
@@ -85,7 +81,7 @@ const PayrollForm = (props) => {
 
     const changeValue = (event) => {
         setForm({ ...formValue, [event.target.name]: event.target.value })
-        console.log(event.target.value)
+
     }
 
     const onCheckChange = (name) => {
@@ -127,8 +123,8 @@ const PayrollForm = (props) => {
             isError = true;
         }
         
-        if ((formValue.salary.valueOf()<300000)||(formValue.salary.valueOf()>500000)) {
-            error.salary = 'Salary should be between 3,00,000 and 5,00,000!!'
+        if ((formValue.salary.valueOf()<30000)||(formValue.salary.valueOf()>50000)) {
+            error.salary = 'Salary should be between 30,000 and 50,000!!'
             isError = true;
         }
         if (formValue.profilePic.length < 1) {
@@ -144,9 +140,7 @@ const PayrollForm = (props) => {
         var month = formValue.month.valueOf();
         var year = formValue.year.valueOf();
         var date = new Date(day+"-"+month+"-"+year);
-        //console.log("Date here :"+date);
         var nowDate = Date.now();
-        //console.log(" Check Date here :"+nowDate);
         if(date>nowDate){
             error.startDate = "StartDate is a future Date!!"
             isError = true;
@@ -163,7 +157,6 @@ const PayrollForm = (props) => {
         event.preventDefault();
      
         if(await handleValidations()){
-            console.log("error", formValue);
             return;
         }else{
         let object = {
@@ -177,14 +170,12 @@ const PayrollForm = (props) => {
             profilePic: formValue.profilePic,
           };
           if (formValue.isUpdate) {
-              console.log("Updating object with id :"+formValue.id);
             employeeService
               .updateEmployee(formValue.id,object)
               .then((data) => {
                   var answer =  window.confirm("Data once modified cannot be restored!! Do you wish to continue?");
                   if(answer == true){
                   alert("Data updated successfully!");
-                console.log("data after update", data.data.data);
                 props.history.push("");
                   }else{
                       window.location.reload();
@@ -192,19 +183,16 @@ const PayrollForm = (props) => {
               })
               .catch((error) => {
                 alert("WARNING!! Error updating the data!");
-                console.log("Error after update"+error);
               });
           } else {
             employeeService
               .addEmployee(object)
               .then((data) => {
                   alert("Data Added successfully!!")
-                console.log("Employee payroll added");
                 props.history.push("");
               })
               .catch((err) => {
                   alert("WARNING!! Error while adding the data!");
-                console.log("error occured while adding employee");
               });
           }
         }
@@ -213,8 +201,6 @@ const PayrollForm = (props) => {
   
     const reset = () => {
         setForm({ ...initialValue, id: formValue.id, isUpdate: formValue.isUpdate });
-
-        console.log(formValue);
     }
     return (
         <div className="payroll-main">
@@ -285,7 +271,7 @@ const PayrollForm = (props) => {
                     
                     <div className="row">
                         <label className="label text" htmlFor="salary">Salary</label>
-                        <input className="input" type="range" id="salary" name="salary" min="300000" max="500000" value={formValue.salary} onChange={changeValue} />
+                        <input className="input" type="range" id="salary" name="salary" min="30000" max="50000" value={formValue.salary} onChange={changeValue} />
                         {formValue.salary}
                         <error className="error">{formValue.error.salary}</error>
                     </div>
