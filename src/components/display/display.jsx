@@ -16,7 +16,6 @@ const Display = (props) => {
   };
 
   const remove = (employeeId) => {
-    console.log(employeeId);
     employeeService
       .deleteEmployee(employeeId)
       .then((data) => {
@@ -24,7 +23,6 @@ const Display = (props) => {
         if(answer == true){
         alert("Data deleted successfully!!");
         window.location.reload();
-        console.log("data after delete", data);
         props.getAllEmployee();
         }
         else{
@@ -33,7 +31,6 @@ const Display = (props) => {
       })
       .catch((err) => {
         alert("error while deleting the data!");
-        console.log("error after delete", err);
       });
   };
 

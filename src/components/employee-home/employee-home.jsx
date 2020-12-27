@@ -27,14 +27,13 @@ export default class Home extends React.Component {
     this.employeeService
       .getAllEmployee()
       .then((response) => {
-        console.log("data after get ", response.data.data);
         this.setState({
           employeeArray: response.data.data,
           AllEmployeeArray: response.data.data,
         });
       })
       .catch((err) => {
-        console.log("err after ", err);
+      alert("err after ", err);
       });
   };
 
